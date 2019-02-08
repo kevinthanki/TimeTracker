@@ -1,12 +1,30 @@
 package org.tracker.app.entity;
 
+import java.io.Serializable;
+
 import org.springframework.data.annotation.Id;
 
-public class User {
+import com.fasterxml.jackson.annotation.JsonIgnore;
+
+public class User implements Serializable {
+	/**
+	 * 
+	 */
+	private static final long serialVersionUID = 1L;
 	@Id
 	private String username;
-	private String password;
+
+	@JsonIgnore
+	private transient String password;
 	private String name;
+
+	public User() {
+
+	}
+
+	public User(String username) {
+		this.username = username;
+	}
 
 	public String getUsername() {
 		return username;

@@ -1,29 +1,28 @@
 package org.tracker.app.exception;
 
-import org.springframework.http.HttpHeaders;
+import java.util.ArrayList;
+import java.util.List;
+
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.ExceptionHandler;
-import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestControllerAdvice;
 import org.springframework.web.context.request.WebRequest;
 import org.springframework.web.servlet.mvc.method.annotation.ResponseEntityExceptionHandler;
 
+/**
+ * 
+ * @author kevin
+ *
+ */
 @RestControllerAdvice
 public class TrackerExceptionHandler extends ResponseEntityExceptionHandler {
 
-	
-	@Override
-	protected ResponseEntity<Object> handleExceptionInternal(Exception ex, Object body, HttpHeaders headers,
-			HttpStatus status, WebRequest request) {
-		// TODO Auto-generated method stub
-		
-		return super.handleExceptionInternal(ex, body, headers, status, request);
+	@ExceptionHandler(Exception.class)
+	public final ResponseEntity<Object> handleAllExceptions(Exception ex, WebRequest request) {
+		List<String> details = new ArrayList<>();
+		details.add(ex.getLocalizedMessage());
+		ErrorResponse error = new ErrorResponse("Server Error", details);
+		return new ResponseEntity<>(error, HttpStatus.INTERNAL_SERVER_ERROR);
 	}
-	
-//	@RequestMapping(produces = "application/json")
-//	@ExceptionHandler(Throwable.class)
-//	public ResponseEntity<?> handleException(Throwable t) {
-//		return new Respons
-//	}
 }

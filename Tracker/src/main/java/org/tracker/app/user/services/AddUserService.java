@@ -26,7 +26,7 @@ public class AddUserService {
 
 		boolean exists = mongoUtil.checkIfRecordExists(UserController.COLLECTION_NAME, "_id", username);
 		if (exists)
-			throw new UserAlreadyExistsException();
+			throw new UserAlreadyExistsException("Username already exists");
 		User user = new User();
 		user.setName(addUserRequest.getName());
 		user.setUsername(username);

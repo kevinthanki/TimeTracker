@@ -8,8 +8,6 @@ import org.tracker.app.entity.Ticket;
 
 public interface TicketRepository extends MongoRepository<Ticket, Long> {
 
-	Ticket findByTicketNo(long ticketNo);
-
 	default long findMaxTicketId() {
 		List<Ticket> tickets = findAll(new Sort(Sort.Direction.DESC, "ticketNo"));
 		if (!tickets.isEmpty())

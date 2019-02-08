@@ -7,6 +7,7 @@ import java.util.Optional;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 import org.tracker.app.entity.Ticket;
+import org.tracker.app.exception.TicketNotFoundException;
 import org.tracker.app.repository.TicketRepository;
 
 @Service
@@ -22,7 +23,7 @@ public class ListTicketService {
 			if (ticket.isPresent())
 				tickets.add(ticket.get());
 			else
-				return null;
+				throw new TicketNotFoundException("Ticket does not exist");
 		} else {
 			tickets = ticketRepository.findAll();
 		}

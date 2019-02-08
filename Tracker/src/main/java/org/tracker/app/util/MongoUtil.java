@@ -1,5 +1,8 @@
 package org.tracker.app.util;
 
+import java.util.ArrayList;
+import java.util.List;
+
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.mongodb.core.MongoTemplate;
 import org.springframework.data.mongodb.core.query.Criteria;
@@ -13,19 +16,9 @@ import org.springframework.stereotype.Repository;
  */
 @Repository
 public class MongoUtil {
-//	private static MongoUtil mongoUtil = null;
 
 	@Autowired
 	MongoTemplate mongoTemplate;
-
-//	private MongoUtil() {
-//	}
-
-//	public static MongoUtil get() {
-//		if (mongoUtil == null)
-//			mongoUtil = new MongoUtil();
-//		return mongoUtil;
-//	}
 
 	public boolean checkIfRecordExists(String collectionName, String fieldName, Object value) {
 
@@ -43,5 +36,15 @@ public class MongoUtil {
 		if (collectionName == null || collectionName.isEmpty())
 			return false;
 		return mongoTemplate.collectionExists(collectionName);
+	}
+
+	public List<Object> findWithCriteria(String collectionName, String fieldName, Object value, Class clazz) {
+		List<Object> list = new ArrayList<>();
+		if (checkIfCollectionExists(collectionName)) {
+			Query query = new Query();
+			query.addCriteria(Criteria.where(fieldName).is(value));
+			list = mongoTemplate.find(query, clazz);
+		}
+		return list;
 	}
 }
